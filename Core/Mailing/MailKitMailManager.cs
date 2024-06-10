@@ -8,7 +8,6 @@ public sealed class MailKitMailManager : IMailService
 {
     public void SendMail(string toEmail, string toUsername, string subject, TextPart body)
     {
-        var mailSettings = new MailSettings();
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress(MailSettings.DisplayName, MailSettings.From));
         message.To.Add(new MailboxAddress(toUsername, toEmail));
@@ -23,7 +22,7 @@ public sealed class MailKitMailManager : IMailService
 
     public void SendWelcomeMail(string email, string username,string token)
     {
-        const string subject = "Aramıza Hoşgeldin | Silversoft";
+        const string subject = "Aramıza Hoşgeldin";
         var body = @"
 <!DOCTYPE html>
 <html lang=""tr"">
