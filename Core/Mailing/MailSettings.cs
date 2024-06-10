@@ -2,10 +2,10 @@
 
 public sealed class MailSettings
 {
-    public string SmtpServer { get; } = "[SMTP_SERVER]";
-    public int SmtpPort { get; } = 587;
-    public string SmtpUserName { get; } = "[USERNAME]";
-    public string SmtpPassword { get; } = "[PASSWORD]";
-    public string DisplayName { get; } = "[DISPLAY_NAME]";
-    public string From { get; } = "[FROM_EMAIL]";
+    public static string SmtpServer => "[SMTP_SERVER]";
+    public static int SmtpPort => 587;
+    public static string SmtpUserName => "[USERNAME]";
+    public static string SmtpPassword => "[PASSWORD]";
+    public static string DisplayName => "[DISPLAY_NAME]";
+    public static string From => "[FROM_EMAIL]";
 }

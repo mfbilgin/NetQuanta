@@ -10,13 +10,13 @@ public sealed class MailKitMailManager : IMailService
     {
         var mailSettings = new MailSettings();
         var message = new MimeMessage();
-        message.From.Add(new MailboxAddress(mailSettings.DisplayName, mailSettings.From));
+        message.From.Add(new MailboxAddress(MailSettings.DisplayName, MailSettings.From));
         message.To.Add(new MailboxAddress(toUsername, toEmail));
         message.Subject = subject;
         message.Body = body;
         using var smtpClient = new SmtpClient();
-        smtpClient.Connect(mailSettings.SmtpServer, mailSettings.SmtpPort, SecureSocketOptions.StartTls);
-        smtpClient.Authenticate(mailSettings.SmtpUserName, mailSettings.SmtpPassword);
+        smtpClient.Connect(MailSettings.SmtpServer, MailSettings.SmtpPort, SecureSocketOptions.StartTls);
+        smtpClient.Authenticate(MailSettings.SmtpUserName, MailSettings.SmtpPassword);
         smtpClient.Send(message);
         smtpClient.Disconnect(true);
     }
