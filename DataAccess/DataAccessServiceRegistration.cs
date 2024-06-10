@@ -14,6 +14,6 @@ public static class DataAccessServiceRegistration
         services.AddSingleton<IRoleRepository, DapperRoleRepository>();
         services.AddSingleton<IUserRepository, DapperUserRepository>();
         services.AddSingleton<IEmailVerificationRepository, DapperEmailVerificationRepository>();
-        services.AddSingleton<DbContext, DapperDatabaseContext>();
+        services.AddSingleton<DapperDatabaseContext>();
     }
 }
