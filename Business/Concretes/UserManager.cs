@@ -2,6 +2,7 @@
 using Business.Abstracts;
 using Business.BusinessRules;
 using Business.ValidationRules.FluentValidation.UserValidators;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Security;
 using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concretes;
@@ -15,6 +16,8 @@ namespace Business.Concretes;
 public sealed class UserManager(IUserRepository userRepository, UserBusinessRules userBusinessRules, IMapper mapper)
     : IUserService
 {
+
+    [CacheRemoveAspect("IUserService.Get")]
     public void Add(User user)
     {
         user.Id = Guid.NewGuid();
@@ -23,6 +26,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     }
     [SecurityAspect("all")]
     [ValidationAspect(typeof(UserUpdateValidator))]
+    [CacheRemoveAspect("IUserService.Get")]
     public void Update(UserUpdateDto userUpdateDto)
     {
         userBusinessRules.UsersJustCanUpdateTheirOwnInformations(userUpdateDto.Id);
@@ -35,6 +39,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     }
 
     [SecurityAspect("all")]
+    [CacheRemoveAspect("IUserService.Get")]
     public void Delete(UserDeleteDto userDeleteDto)
     {
         userBusinessRules.UsersJustCanDeleteTheirOwnInformations(userDeleteDto.Id);
@@ -45,6 +50,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     
     
     [SecurityAspect("all")]
+    [CacheRemoveAspect("IUserService.Get")]
     public void ChangePassword(ChangePasswordDto changePasswordDto)
     {
         userBusinessRules.UsersJustCanUpdateTheirOwnInformations(changePasswordDto.Id);
@@ -59,6 +65,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     }
 
     [SecurityAspect("admin")]
+    [CacheRemoveAspect("IUserService.Get")]
     public void ChangeUserRole(ChangeUserRoleDto changeUserRoleDto)
     {
         var user = userBusinessRules.UsernameMustBeExist(changeUserRoleDto.Username);
@@ -73,6 +80,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     }
 
     [SecurityAspect("admin")]
+    [CacheAspect]
     public PageableModel<UserGetDto> GetAll(int index = 1, int size = 10)
     {
         var users = userRepository.GetList(index, size);
@@ -80,12 +88,14 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     }
 
     [SecurityAspect("admin")]
+    [CacheAspect]
     public UserGetDto? GetById(Guid id)
     {
         return mapper.Map<UserGetDto?>(userRepository.GetById(id));
     }
     
     [SecurityAspect("admin")]
+    [CacheAspect]
     public UserGetDto? GetByUsername(string name)
     {
         return mapper.Map<UserGetDto?>(userRepository.GetByUsername(name));
