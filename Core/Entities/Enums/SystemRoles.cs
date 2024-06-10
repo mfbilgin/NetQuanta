@@ -3,6 +3,5 @@
 public enum SystemRoles
 {
     Admin,
-    User,
-    Student
+    User
 }
