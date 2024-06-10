@@ -26,7 +26,6 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
 
     ```
     git clone https://github.com/mfbilgin/.NetCore8.0-ProjectTemplate.git
-    cd .NetCore8.0-ProjectTemplate
     ```
 	Ya da dilereseniz sağ üstteki code sekmesi altından zip olarak da indirebilirsiniz.
 
