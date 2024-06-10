@@ -33,6 +33,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
 2. **NuGet paketlerini geri yükleyin:**
 
     ```
+    cd .NetCore8.0-ProjectTemplate
     dotnet restore
     ```
 
