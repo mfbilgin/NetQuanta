@@ -62,7 +62,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
     "Audience": "```",  
     "Issuer": "```",  
     "SecurityKey": "[YOUR_SECURITY_KEY]",  
-    "AccessTokenExpiration": "YOUR_ACCESS_TOKEN_EXPIRATION(MINUTES)"  
+    "AccessTokenExpiration": "YOUR_ACCESS_TOKEN_EXPIRATION(MINUTES) as int"  
     }
     ```
 
