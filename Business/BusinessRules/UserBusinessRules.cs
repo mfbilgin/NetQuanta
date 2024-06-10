@@ -20,6 +20,12 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
             throw new BusinessException(UserMessages.UsernameAlreadyExists, StatusCodes.Status409Conflict);
         }
     }
+
+    public void SetUserRole(User user)
+    {
+        user.RoleId = roleRepository.GetByName(SystemRoles.User.ToString().ToLower())!.Id;
+    }
+
     public void UsersJustCanUpdateTheirOwnInformations(Guid requestedUserId)
     {
         if (requestedUserId != JwtHelper.GetAuthenticatedUserId())
@@ -27,13 +33,16 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
             throw new BusinessException(UserMessages.UserCanNotUpdateOtherUser, StatusCodes.Status403Forbidden);
         }
     }
+
     public void UsersJustCanDeleteTheirOwnInformations(Guid id)
     {
-        if (id != JwtHelper.GetAuthenticatedUserId() && JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
+        if (id != JwtHelper.GetAuthenticatedUserId() &&
+            JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
             throw new BusinessException(UserMessages.UserCanNotDeleteOtherUser, StatusCodes.Status403Forbidden);
         }
     }
+
     public void EmailCanNotBeDuplicatedWhenUpdated(string email, Guid id)
     {
         var user = userRepository.GetByEmail(email);
@@ -43,7 +52,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         }
     }
 
-    
+
     public void UserIdMustBeExist(Guid id)
     {
         var user = userRepository.GetById(id);
@@ -52,7 +61,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
             throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound);
         }
     }
-    
+
     public User UsernameMustBeExist(string username)
     {
         var user = userRepository.GetByUsername(username);
@@ -90,6 +99,4 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
 
         return role;
     }
-
-    
 }

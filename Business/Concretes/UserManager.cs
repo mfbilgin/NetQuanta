@@ -20,6 +20,7 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     [CacheRemoveAspect("IUserService.Get")]
     public void Add(User user)
     {
+        userBusinessRules.SetUserRole(user);
         user.Id = Guid.NewGuid();
         user.Username = user.Username.ToLower();
         userRepository.Add(user);
