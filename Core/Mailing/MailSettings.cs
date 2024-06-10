@@ -2,10 +2,10 @@
 
 public sealed class MailSettings
 {
-    public string SmtpServer { get; set; } = "smtp.turkticaret.net";
+    public string SmtpServer { get; set; } = "[SMTP_SERVER]";
     public int SmtpPort { get; set; } = 587;
-    public string SmtpUserName { get; set; } = "admin@mfbilgin.com.tr";
-    public string SmtpPassword { get; set; } = "&[\"-f#\"XC5aw5'+)";
-    public string DisplayName { get; set; } = "Silversoft";
-    public string From { get; set; } = "admin@mfbilgin.com.tr";
+    public string SmtpUserName { get; set; } = "[USERNAME]";
+    public string SmtpPassword { get; set; } = "[PASSWORD]";
+    public string DisplayName { get; set; } = "[DISPLAY_NAME]";
+    public string From { get; set; } = "[FROM_EMAIL]";
 }
