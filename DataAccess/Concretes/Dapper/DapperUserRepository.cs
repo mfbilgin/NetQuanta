@@ -13,8 +13,8 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
     public void Add(User entity)
     {
         const string query = """
-              INSERT INTO Users(Id,RoleId,FirstName,LastName,Email,IsEmailVerified,PasswordHash,PasswordSalt) 
-              VALUES(@Id,@RoleId,@FirstName,@LastName,@Email,@IsEmailVerified,@PasswordHash,@PasswordSalt)
+              INSERT INTO Users(Id,RoleId,FirstName,LastName,Email,IsEmailVerified,Username,PasswordHash,PasswordSalt) 
+              VALUES(@Id,@RoleId,@FirstName,@LastName,@Email,@IsEmailVerified,@Username,@PasswordHash,@PasswordSalt)
               """;
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
@@ -23,6 +23,7 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
         parameters.Add("@LastName", entity.LastName);
         parameters.Add("@Email", entity.Email);
         parameters.Add("@IsEmailVerified", entity.IsEmailVerified);
+        parameters.Add("@Username", entity.Username.ToLower());
         parameters.Add("@PasswordHash", entity.PasswordHash);
         parameters.Add("@PasswordSalt", entity.PasswordSalt);
         var connection = context.CreateConnection();
