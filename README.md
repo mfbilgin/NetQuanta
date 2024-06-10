@@ -68,7 +68,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
 
 3. Eğer EF kullanacaksanız `DataAccessServiceRegistration.cs` dosyasında dapper context'in kaydını ef context olarak değiştirin ve ardından migration oluşturup veri tabanını güncelleyin. 
 
-4. Core/Mailing'de yer alan `MailSettings.cs` bilgilerini kendi bilgilerinize göre doldurun.
+4. Core/Mailing'de yer alan `MailSettings.cs` bilgilerini kendi bilgilerinize göre doldurun. Ve ardından `MailKitMailManager.cs` içerisinde yer alan send welcome mail fonksiyonunda yer alan düzenlemeleri gerçekleştirin.
 
 5. Proje çalıştırılmaya hazır. İlk olarak lütfen admin kontrolünü kaldırıp rol ekleyin ve öyle devam edin :)
 
