@@ -1,6 +1,6 @@
 ﻿using Business.Abstracts;
 using Business.Constants.Messages;
-using Dtos.Role;
+using Core.Entities.Dtos.Role;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
