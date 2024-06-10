@@ -1,8 +1,8 @@
 ﻿using Business.Abstracts;
 using Business.Constants;
 using Core.Entities.Concretes;
+using Core.Entities.Dtos.Auth;
 using Core.Mailing;
-using Dtos.Auth;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
