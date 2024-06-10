@@ -55,7 +55,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
     }
     ```
 
-2. `appsettings.json` dosyasındaki Token Options bilgilerini kendinize uygun olarak güncelleyin.
+2. `appsettings.json` dosyasındaki Token Options bilgilerini kendinize uygun olarak güncelleyin. SecurtiyKey'in 64 karakterden fazla olmasına dikkat edin.
 
    ```
     "TokenOptions": {  
