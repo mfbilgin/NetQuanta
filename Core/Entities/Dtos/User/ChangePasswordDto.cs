@@ -1,6 +1,6 @@
 ﻿namespace Core.Entities.Dtos.User;
 
-public class ChangePasswordDto
+public sealed class ChangePasswordDto
 {
     public Guid Id { get; set; }
     public string CurrentPassword { get; set; } = string.Empty;

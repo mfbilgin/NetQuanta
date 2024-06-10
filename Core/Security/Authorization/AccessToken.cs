@@ -1,6 +1,6 @@
 ﻿namespace Core.Security.Authorization;
 
-public class AccessToken
+public sealed class AccessToken
 {
     public string Token { get; set; } = string.Empty;
     public DateTime Expiration { get; set; }

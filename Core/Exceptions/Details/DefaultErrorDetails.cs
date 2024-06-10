@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Core.Exceptions.Details;
 
-public class DefaultErrorDetails : IErrorDetails
+public sealed class DefaultErrorDetails : IErrorDetails
 {
     public int StatusCode { get; } = StatusCodes.Status500InternalServerError;
 

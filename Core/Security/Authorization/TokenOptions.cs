@@ -1,6 +1,6 @@
 ﻿namespace Core.Security.Authorization;
 
-public class TokenOptions
+public sealed class TokenOptions
 {
     public string Audience { get; set; } = string.Empty;
     public string Issuer { get; set; } = string.Empty;

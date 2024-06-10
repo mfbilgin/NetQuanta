@@ -1,6 +1,6 @@
 ﻿namespace Core.Entities.Dtos.User;
 
-public class UserUpdateDto
+public sealed class UserUpdateDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public string FirstName { get; set; } = string.Empty;

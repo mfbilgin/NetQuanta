@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.Concretes.EntityFramework;
 
-public class EfUserRepository(DbContext context) : EfEntityRepositoryBase<User>(context), IUserRepository
+public sealed class EfUserRepository(DbContext context) : EfEntityRepositoryBase<User>(context), IUserRepository
 {
     public User? GetByUsername(string username)
     {

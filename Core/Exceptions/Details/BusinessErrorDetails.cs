@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Core.Exceptions.Details;
 
-public class BusinessErrorDetails : IErrorDetails
+public sealed class BusinessErrorDetails : IErrorDetails
 {
     public int StatusCode { get; init; } = StatusCodes.Status400BadRequest;
     public string Message { get; init; } = "An error occurred.";

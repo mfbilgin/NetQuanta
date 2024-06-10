@@ -5,7 +5,7 @@ using Core.Security.Authorization;
 
 namespace Core.Aspects.Autofac.Security;
 
-public class SecurityAspect(string roles) : MethodInterception
+public sealed class SecurityAspect(string roles) : MethodInterception
 {
     private readonly string[] _roles = roles.Split(',');
     

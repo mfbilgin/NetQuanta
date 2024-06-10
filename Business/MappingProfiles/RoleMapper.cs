@@ -5,7 +5,7 @@ using Core.Extensions.Paging;
 
 namespace Business.MappingProfiles;
 
-public class RoleMapper : Profile
+public sealed class RoleMapper : Profile
 {
     public RoleMapper()
     {

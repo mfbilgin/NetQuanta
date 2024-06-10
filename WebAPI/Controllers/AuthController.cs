@@ -9,7 +9,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(
+public sealed class AuthController(
     IAuthService authService,
     IUserService userService,
     IRoleService roleService,

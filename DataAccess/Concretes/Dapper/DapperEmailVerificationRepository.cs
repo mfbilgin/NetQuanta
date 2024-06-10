@@ -7,7 +7,7 @@ using DataAccess.Contexts;
 
 namespace DataAccess.Concretes.Dapper;
 
-public class DapperEmailVerificationRepository(DapperDatabaseContext context) : IEmailVerificationRepository
+public sealed class DapperEmailVerificationRepository(DapperDatabaseContext context) : IEmailVerificationRepository
 {
     public void Add(EmailVerification entity)
     {

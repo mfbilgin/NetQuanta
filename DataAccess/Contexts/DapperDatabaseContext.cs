@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace DataAccess.Contexts;
 
-public class DapperDatabaseContext(IConfiguration configuration) : DbContext
+public sealed class DapperDatabaseContext(IConfiguration configuration) : DbContext
 {
     private readonly string? _connectionString = configuration.GetConnectionString("DefaultConnection");
 

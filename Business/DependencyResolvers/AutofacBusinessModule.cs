@@ -7,7 +7,7 @@ using Module = Autofac.Module;
 
 namespace Business.DependencyResolvers;
 
-public class AutofacBusinessModule : Module
+public sealed class AutofacBusinessModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {

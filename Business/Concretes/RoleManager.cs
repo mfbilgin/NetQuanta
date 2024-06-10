@@ -11,7 +11,7 @@ using DataAccess.Abstracts;
 
 namespace Business.Concretes;
 
-public class RoleManager(IRoleRepository roleRepository, IMapper mapper,RoleBusinessRules roleBusinessRules) : IRoleService
+public sealed class RoleManager(IRoleRepository roleRepository, IMapper mapper,RoleBusinessRules roleBusinessRules) : IRoleService
 {
     [SecurityAspect("admin")]
     [ValidationAspect(typeof(RoleAddValidator))]

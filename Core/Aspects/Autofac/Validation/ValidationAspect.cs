@@ -5,7 +5,7 @@ using Core.Interceptors;
 
 namespace Core.Aspects.Autofac.Validation;
 
-public class ValidationAspect : MethodInterception
+public sealed class ValidationAspect : MethodInterception
 {
     private readonly Type _validatorType;
 

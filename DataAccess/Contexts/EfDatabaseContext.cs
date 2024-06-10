@@ -6,7 +6,7 @@ namespace DataAccess.Contexts;
 
 // If you want to use the Entity Framework Core in your project, you can use this context class.
 
-public class EfDatabaseContext(IConfiguration configuration) : DbContext
+public sealed class EfDatabaseContext(IConfiguration configuration) : DbContext
 {
     private readonly IConfiguration? _configuration = configuration;
 

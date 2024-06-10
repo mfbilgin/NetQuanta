@@ -1,6 +1,6 @@
 ﻿namespace Core.Entities.Dtos.Auth;
 
-public class RegisterDto
+public sealed class RegisterDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;

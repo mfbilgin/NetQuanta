@@ -8,7 +8,7 @@ using Core.Security.Hashing;
 
 namespace Business.Concretes;
 
-public class AuthManager(
+public sealed class AuthManager(
     AuthBusinessRules authBusinessRules,
     IRoleService roleService,
     ITokenHelper tokenHelper,

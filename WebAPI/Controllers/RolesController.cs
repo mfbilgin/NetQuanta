@@ -8,7 +8,7 @@ namespace WebAPI.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-public class RolesController(IRoleService roleService) : ControllerBase
+public sealed class RolesController(IRoleService roleService) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetAll([FromQuery] int index = 1, [FromQuery] int size = 10)

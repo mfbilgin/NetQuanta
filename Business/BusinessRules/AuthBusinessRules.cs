@@ -6,7 +6,7 @@ using DataAccess.Abstracts;using Microsoft.AspNetCore.Http;
 
 namespace Business.BusinessRules;
 
-public class AuthBusinessRules(IUserRepository userRepository,IEmailVerificationRepository emailVerificationRepository)
+public sealed class AuthBusinessRules(IUserRepository userRepository,IEmailVerificationRepository emailVerificationRepository)
 {
     public void UsernameCanNotBeDuplicatedWhenRegistered(string username)
     {

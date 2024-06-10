@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Core.CrossCuttingConcerns.Caching.Microsoft;
 
-public class MemoryCacheManager(IMemoryCache memoryCache) : ICacheManager
+public sealed class MemoryCacheManager(IMemoryCache memoryCache) : ICacheManager
 {
     public T? Get<T>(string key)
     {

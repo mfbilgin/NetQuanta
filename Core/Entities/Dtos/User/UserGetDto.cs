@@ -1,6 +1,6 @@
 ﻿namespace Core.Entities.Dtos.User;
 
-public class UserGetDto
+public sealed class UserGetDto
 {
     public Guid Id { get; set; } = Guid.Empty;
     public string? StudentNumber { get; set; }

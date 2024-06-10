@@ -4,7 +4,7 @@ using MimeKit;
 
 namespace Core.Mailing;
 
-public class MailKitMailManager : IMailService
+public sealed class MailKitMailManager : IMailService
 {
     public void SendMail(string toEmail, string toUsername, string subject, TextPart body)
     {

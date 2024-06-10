@@ -11,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Core.Security.Authorization;
 
-public class JwtHelper(IConfiguration configuration) : ITokenHelper
+public sealed class JwtHelper(IConfiguration configuration) : ITokenHelper
 {
     private readonly TokenOptions _tokenOptions = configuration.GetSection("TokenOptions").Get<TokenOptions>()!;
     private DateTime _accessTokenExpiration;

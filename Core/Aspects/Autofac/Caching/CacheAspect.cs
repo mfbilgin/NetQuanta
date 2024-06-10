@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Aspects.Autofac.Caching;
 
-public class CacheAspect(int duration = 60) : MethodInterception
+public sealed class CacheAspect(int duration = 60) : MethodInterception
 {
     private readonly ICacheManager? _cacheManager = ServiceTool.ServiceProvider?.GetService<ICacheManager>();
 

@@ -5,7 +5,7 @@ using DataAccess.Abstracts;
 
 namespace Business.Concretes;
 
-public class EmailVerificationManager(
+public sealed class EmailVerificationManager(
     IEmailVerificationRepository emailVerificationRepository,
     EmailVerificationBusinessRules emailVerificationBusinessRules) : IEmailVerificationService
 {

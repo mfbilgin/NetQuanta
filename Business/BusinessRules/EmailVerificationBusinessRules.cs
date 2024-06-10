@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.BusinessRules;
 
-public class EmailVerificationBusinessRules(IEmailVerificationRepository emailVerificationRepository)
+public sealed class EmailVerificationBusinessRules(IEmailVerificationRepository emailVerificationRepository)
 {
         
     public EmailVerification TokenMustBeCorrectWhenEmailVerified(string username, string token)

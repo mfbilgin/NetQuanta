@@ -1,3 +1,3 @@
 ﻿namespace Core.Exceptions;
 
-public class AuthorizationException() : Exception();
+public sealed class AuthorizationException() : Exception();

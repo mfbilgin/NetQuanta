@@ -7,7 +7,7 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UsersController(IUserService userService) : ControllerBase
+public sealed class UsersController(IUserService userService) : ControllerBase
 {
     [HttpGet]
     public IActionResult GetUserList([FromQuery] int index = 1, [FromQuery] int size = 10)

@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Business.BusinessRules;
 
-public class RoleBusinessRules(IRoleRepository roleRepository)
+public sealed class RoleBusinessRules(IRoleRepository roleRepository)
 {
     public void RoleNameCanNotBeDuplicated(string name)
     {

@@ -8,7 +8,7 @@ using DataAccess.Contexts;
 
 namespace DataAccess.Concretes.Dapper;
 
-public class DapperRoleRepository(DapperDatabaseContext context) : IRoleRepository
+public sealed class DapperRoleRepository(DapperDatabaseContext context) : IRoleRepository
 {
     public void Add(Role entity)
     {
