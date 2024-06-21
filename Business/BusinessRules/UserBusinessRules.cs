@@ -1,4 +1,5 @@
-﻿using Business.Constants;
+﻿using System.Security.Authentication;
+using Business.Constants;
 using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Entities.Enums;
@@ -28,9 +29,10 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
 
     public void UsersJustCanUpdateTheirOwnInformations(Guid requestedUserId)
     {
-        if (requestedUserId != JwtHelper.GetAuthenticatedUserId())
+        if (requestedUserId != JwtHelper.GetAuthenticatedUserId() &&
+            JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
-            throw new BusinessException(UserMessages.UserCanNotUpdateOtherUser, StatusCodes.Status403Forbidden);
+            throw new AuthenticationException();
         }
     }
 
@@ -39,7 +41,16 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         if (id != JwtHelper.GetAuthenticatedUserId() &&
             JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
-            throw new BusinessException(UserMessages.UserCanNotDeleteOtherUser, StatusCodes.Status403Forbidden);
+            throw new AuthenticationException();
+        }
+    }
+
+    public void UsersCannotAccessOtherUsersInformations(string name)
+    {
+        if (name != JwtHelper.GetAuthenticatedUsername() &&
+            JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
+        {
+            throw new AuthorizationException();
         }
     }
 
