@@ -19,4 +19,9 @@ public static class ClaimsPrincipalExtensions
     {
         return claimsPrincipal.FindFirst("UserId")!.Value;
     }
+    
+    public static string Username(this ClaimsPrincipal claimsPrincipal)
+    {
+        return claimsPrincipal.FindFirst("Username")!.Value;
+    }
 }
