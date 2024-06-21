@@ -7,10 +7,24 @@ public static class PaginationExtension
         ArgumentNullException.ThrowIfNull(queryable);
         ArgumentOutOfRangeException.ThrowIfLessThan(index, 1);
         ArgumentOutOfRangeException.ThrowIfLessThan(size, 1);
-        
+
         var count = queryable.Count();
         var data = queryable.Skip((index - 1) * size).Take(size).ToList();
+
+        return new PageableModel<TEntity>(data, index, size, count);
+    }
+
+    public static PageableModel<TEntity> ToPaginate<TEntity>(this IList<TEntity>? queryable, int index, int size)
+    {
         
+        ArgumentNullException.ThrowIfNull(queryable);
+        ArgumentOutOfRangeException.ThrowIfLessThan(index, 1);
+        ArgumentOutOfRangeException.ThrowIfLessThan(size, 1);
+
+
+        var count = queryable.Count;
+        var data = queryable.Skip((index - 1) * size).Take(size).ToList();
+
         return new PageableModel<TEntity>(data, index, size, count);
     }
 }
