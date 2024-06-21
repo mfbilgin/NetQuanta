@@ -11,4 +11,9 @@ public sealed class EfEmailVerificationRepository(DbContext context) : EfEntityR
     {
         return Get(email => email.Token == token);
     }
+
+    public EmailVerification? GetByUsername(string username)
+    {
+        return Get(email => email.Username == username);
+    }
 }
