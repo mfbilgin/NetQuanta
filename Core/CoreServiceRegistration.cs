@@ -1,4 +1,6 @@
-﻿using Core.IoC;
+﻿using Core.CrossCuttingConcerns.Caching;
+using Core.CrossCuttingConcerns.Caching.Microsoft;
+using Core.IoC;
 using Core.Mailing;
 using Core.Security.Authorization;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +16,7 @@ public static class CoreServiceRegistration
         }
 
         services.AddSingleton<IMailService, MailKitMailManager>();
+        services.AddSingleton<ICacheManager, MemoryCacheManager>();
         services.AddSingleton<ITokenHelper,JwtHelper>();
         
         ServiceTool.Create(services);
