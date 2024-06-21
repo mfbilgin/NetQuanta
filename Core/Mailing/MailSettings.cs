@@ -1,6 +1,6 @@
 ﻿namespace Core.Mailing;
 
-public sealed class MailSettings
+public static class MailSettings
 {
     public static string SmtpServer => "[SMTP_SERVER]";
     public static int SmtpPort => 587;
