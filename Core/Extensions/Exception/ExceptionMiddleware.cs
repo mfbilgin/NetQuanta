@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions.Exception;
 
-public class ExceptionMiddleware(RequestDelegate next, bool isDevMode = false)
+public class ExceptionMiddleware(RequestDelegate next)
 {
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -22,8 +22,9 @@ public class ExceptionMiddleware(RequestDelegate next, bool isDevMode = false)
     private static Task HandleExceptionAsync(HttpContext httpContext, System.Exception exception)
     {
         httpContext.Response.ContentType = "application/json";
+        var stackTrace = exception.StackTrace?.Split("Controllers.")[1].Split("\r")[0];
 
-        IErrorDetails errorDetails = exception switch
+    IErrorDetails errorDetails = exception switch
         {
             ValidationException validationException => new ValidationErrorDetails
             {
@@ -41,7 +42,6 @@ public class ExceptionMiddleware(RequestDelegate next, bool isDevMode = false)
             // else 
             // _ => new DefaultErrorDetails()
         };
-
         httpContext.Response.StatusCode = errorDetails.StatusCode;
         // !!! ADD LOGGING HERE !!!
 
