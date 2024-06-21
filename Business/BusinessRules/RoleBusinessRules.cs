@@ -17,7 +17,7 @@ public sealed class RoleBusinessRules(IRoleRepository roleRepository)
     }
     public void RoleIdMustBeExist(Guid id)
     {
-        var role = roleRepository.Get(role => role.Id == id);
+        var role = roleRepository.GetById(id);
         if (role is null)
         {
             throw new BusinessException(RoleMessages.RoleNotFound,StatusCodes.Status404NotFound);
