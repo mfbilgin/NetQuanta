@@ -1,11 +1,13 @@
 ﻿using Core.Exceptions;
 using Core.Exceptions.Details;
+using Core.Logging;
+using Core.Security.Authorization;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions.Exception;
 
-public class ExceptionMiddleware(RequestDelegate next)
+public class ExceptionMiddleware(RequestDelegate next,ILogService logService)
 {
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -19,12 +21,12 @@ public class ExceptionMiddleware(RequestDelegate next)
         }
     }
 
-    private static Task HandleExceptionAsync(HttpContext httpContext, System.Exception exception)
+    private Task HandleExceptionAsync(HttpContext httpContext, System.Exception exception)
     {
         httpContext.Response.ContentType = "application/json";
-        var stackTrace = exception.StackTrace?.Split("Controllers.")[1].Split("\r")[0];
+        
 
-    IErrorDetails errorDetails = exception switch
+        IErrorDetails errorDetails = exception switch
         {
             ValidationException validationException => new ValidationErrorDetails
             {
@@ -44,7 +46,18 @@ public class ExceptionMiddleware(RequestDelegate next)
         };
         httpContext.Response.StatusCode = errorDetails.StatusCode;
         // !!! ADD LOGGING HERE !!!
-
+        var stackTrace = exception.StackTrace?.Split("Controllers.")[1].Split("\r")[0];
+        Log log = new()
+        {
+            LogLevel = LogLevel.Error.ToString(),
+            Message = errorDetails.Message,
+            Exception = exception.GetType().Name,
+            Source = stackTrace ?? "Unknown",
+            Details = errorDetails.GetDetails(),
+            UserName = JwtHelper.GetAuthenticatedUsername()??"Unauthorized request",
+        };
+        logService.Log(log);
+        
         return httpContext.Response.WriteAsync(errorDetails.GetDetails());
     }
 }

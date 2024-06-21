@@ -37,7 +37,7 @@ public sealed class JwtHelper(IConfiguration configuration) : ITokenHelper
     {
         CheckHttpContextAccessor();
         var userId = HttpContextAccessor!.HttpContext!.User.UserId();
-        return Guid.Parse(userId);
+        return userId is not null ? Guid.Parse(userId) : Guid.Empty;
     }
 
     public static List<string> GetAuthenticatedUserRoles()
@@ -46,7 +46,7 @@ public sealed class JwtHelper(IConfiguration configuration) : ITokenHelper
         return HttpContextAccessor!.HttpContext!.User.Roles();
     }
     
-    public static string GetAuthenticatedUsername()
+    public static string? GetAuthenticatedUsername()
     {
         CheckHttpContextAccessor();
         return HttpContextAccessor!.HttpContext!.User.Username();

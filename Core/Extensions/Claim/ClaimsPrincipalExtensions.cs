@@ -15,13 +15,13 @@ public static class ClaimsPrincipalExtensions
         return claimsPrincipal.Claims("Role");
     }
 
-    public static string UserId(this ClaimsPrincipal claimsPrincipal)
+    public static string? UserId(this ClaimsPrincipal claimsPrincipal)
     {
-        return claimsPrincipal.FindFirst("UserId")!.Value;
+        return claimsPrincipal.FindFirst("UserId")?.Value;
     }
     
-    public static string Username(this ClaimsPrincipal claimsPrincipal)
+    public static string? Username(this ClaimsPrincipal claimsPrincipal)
     {
-        return claimsPrincipal.FindFirst("Username")!.Value;
+        return claimsPrincipal.FindFirst("Username")?.Value;
     }
 }

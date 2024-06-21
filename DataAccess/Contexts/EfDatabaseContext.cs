@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concretes;
+using Core.Logging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -20,4 +21,5 @@ public sealed class EfDatabaseContext(IConfiguration configuration) : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<EmailVerification> EmailVerifications { get; set; }
+    public DbSet<Log> Logs { get; set; }
 }

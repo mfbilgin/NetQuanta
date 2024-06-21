@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using Core.Entities.Concretes;
+using Core.Logging;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -18,6 +19,7 @@ public sealed class DapperDatabaseContext(IConfiguration configuration) : DbCont
     public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<EmailVerification> EmailVerifications { get; set; }
+    public DbSet<Log> Logs { get; set; }
     
     
     public IDbConnection CreateConnection()=> new SqlConnection(_connectionString);

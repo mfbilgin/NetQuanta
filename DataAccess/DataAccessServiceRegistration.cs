@@ -11,6 +11,9 @@ public static class DataAccessServiceRegistration
 {
     public static void AddDataAccessServices(this IServiceCollection services)
     {
+        //Log only has a Dapper implementation. Not remove this line.
+        services.AddSingleton<ILogRepository, DapperLogRepository>();
+        
         services.AddSingleton<IRoleRepository, DapperRoleRepository>();
         services.AddSingleton<IUserRepository, DapperUserRepository>();
         services.AddSingleton<IEmailVerificationRepository, DapperEmailVerificationRepository>();

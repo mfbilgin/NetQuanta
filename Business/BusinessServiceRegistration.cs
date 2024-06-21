@@ -2,6 +2,7 @@
 using Business.Abstracts;
 using Business.BusinessRules;
 using Business.Concretes;
+using Core.Logging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,7 +18,9 @@ public static class BusinessServiceRegistration
         services.AddSingleton<IUserService, UserManager>();
         services.AddSingleton<IAuthService, AuthManager>();
         services.AddSingleton<IEmailVerificationService, EmailVerificationManager>();
+        services.AddSingleton<ILogService, LogManager>();
         
+        services.AddSingleton<LogBusinessRules>();
         services.AddSingleton<RoleBusinessRules>();
         services.AddSingleton<UserBusinessRules>();
         services.AddSingleton<AuthBusinessRules>();
