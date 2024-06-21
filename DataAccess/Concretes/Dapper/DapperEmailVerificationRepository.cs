@@ -70,7 +70,7 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
         using var connection = context.CreateConnection();
         var emailVerifications = connection.Query<EmailVerification>(query).ToList();
         connection.Close();
-        return new PageableModel<EmailVerification>(emailVerifications, index, size, emailVerifications.Count);
+        return emailVerifications.ToPaginate(index, size);
     }
 
     public EmailVerification? GetByToken(string token)
@@ -78,6 +78,17 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
         const string query = "SELECT * FROM EmailVerifications WHERE Token = @Token";
         var parameters = new DynamicParameters();
         parameters.Add("@Token", token);
+        using var connection = context.CreateConnection();
+        var emailVerification = connection.QueryFirstOrDefault<EmailVerification>(query, parameters);
+        connection.Close();
+        return emailVerification;
+    }
+
+    public EmailVerification? GetByUsername(string username)
+    {
+        const string query = "SELECT * FROM EmailVerifications WHERE Username = @Username";
+        var parameters = new DynamicParameters();
+        parameters.Add("@Username", username);
         using var connection = context.CreateConnection();
         var emailVerification = connection.QueryFirstOrDefault<EmailVerification>(query, parameters);
         connection.Close();

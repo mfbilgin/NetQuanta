@@ -62,7 +62,7 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
         connection.Close();
     }
 
-    public User? Get(Expression<Func<User, bool>> filter)
+    public User Get(Expression<Func<User, bool>> filter)
     {
         throw new InvalidOperationException("Filtering is not supported in dapper repository.");
     }
@@ -85,7 +85,7 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
         var connection = context.CreateConnection();
         var users = connection.Query<User>(query).ToList();
         connection.Close();
-        return new PageableModel<User>(users, index, size, users.Count);
+        return users.ToPaginate(index, size);
     }
 
     public User? GetByUsername(string username)

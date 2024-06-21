@@ -81,6 +81,6 @@ public sealed class DapperRoleRepository(DapperDatabaseContext context) : IRoleR
         using var connection = context.CreateConnection();
         var roles = connection.Query<Role>(query).ToList();
         connection.Close();
-        return new PageableModel<Role>(roles, index, size, roles.Count);
+        return roles.ToPaginate(index,size);
     }
 }
