@@ -95,10 +95,11 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
         return mapper.Map<UserGetDto?>(userRepository.GetById(id));
     }
     
-    [SecurityAspect("admin")]
+    [SecurityAspect("all")]
     [CacheAspect]
     public UserGetDto? GetByUsername(string name)
     {
+        userBusinessRules.UsersCannotAccessOtherUsersInformations(name);
         return mapper.Map<UserGetDto?>(userRepository.GetByUsername(name));
     }
 }
