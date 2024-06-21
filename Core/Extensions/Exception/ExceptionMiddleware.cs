@@ -1,26 +1,17 @@
 ﻿using Core.Exceptions;
 using Core.Exceptions.Details;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions.Exception;
 
-public class ExceptionMiddleware
+public class ExceptionMiddleware(RequestDelegate next, bool isDevMode = false)
 {
-    private readonly RequestDelegate _next;
-    private IEnumerable<ValidationFailure> _errors;
-
-    public ExceptionMiddleware(RequestDelegate next)
-    {
-        _next = next;
-    }
-
     public async Task InvokeAsync(HttpContext httpContext)
     {
         try
         {
-            await _next(httpContext);
+            await next(httpContext);
         }
         catch (System.Exception e)
         {
@@ -45,10 +36,15 @@ public class ExceptionMiddleware
                 StatusCode = businessException.StatusCode
             },
             AuthorizationException _ => new AuthorizationErrorDetails(),
-            _ => new DefaultErrorDetails()
+            // if you are in development mode, you can return the exception message
+            _ => new DefaultErrorDetails { Message = exception.Message }
+            // else 
+            // _ => new DefaultErrorDetails()
         };
 
         httpContext.Response.StatusCode = errorDetails.StatusCode;
+        // !!! ADD LOGGING HERE !!!
+
         return httpContext.Response.WriteAsync(errorDetails.GetDetails());
     }
 }
