@@ -46,6 +46,12 @@ public sealed class JwtHelper(IConfiguration configuration) : ITokenHelper
         return HttpContextAccessor!.HttpContext!.User.Roles();
     }
     
+    public static string GetAuthenticatedUsername()
+    {
+        CheckHttpContextAccessor();
+        return HttpContextAccessor!.HttpContext!.User.Username();
+    }
+    
     private JwtSecurityToken CreateJwtSecurityToken(TokenOptions tokenOptions, User user,
         SigningCredentials signingCredentials, Role role)
     {
