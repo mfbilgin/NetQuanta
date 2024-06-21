@@ -25,6 +25,7 @@ public static class UserMessages
 
     public const string EmailAlreadyExists = "Bu e-posta adresi daha önce alınmış.";
     public const string UserNotFound = "Bir şeyleri yanlış yaptın gibi gözüküyor. Kullanıcı bulunamadı.";
+    public const string AuthError = "Kullanıcı adı veya parola hatalı. Lütfen tekrar dene.";
     public const string CurrentPasswordIsIncorrect = "Parolan yanlış. Lütfen tekrar dene.";
     public const string NewPasswordMustBeDifferent = "Yeni parolan eski parolandan farklı olmalı";
     public const string UserInfosHasBeenUpdated = "Bilgilerin başarıyla güncellendi.";
