@@ -11,6 +11,8 @@ public sealed class EmailVerificationManager(
 {
     public EmailVerification Add(string username)
     {
+        emailVerificationBusinessRules.IfUserHasVerificationTokenDeleteFirst(username);
+        
         var emailVerification = new EmailVerification
         {
             Id = Guid.NewGuid(),
