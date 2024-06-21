@@ -1,4 +1,4 @@
-﻿using Business.Constants;
+﻿using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Exceptions;
 using DataAccess.Abstracts;
@@ -18,5 +18,14 @@ public sealed class EmailVerificationBusinessRules(IEmailVerificationRepository 
         }
 
         return emailVerification;
-    }   
+    }
+
+    public void IfUserHasVerificationTokenDeleteFirst(string username)
+    {
+        var emailVerification = emailVerificationRepository.GetByUsername(username);
+        if (emailVerification is not null)
+        {
+            emailVerificationRepository.Delete(emailVerification);
+        }
+    }
 }
