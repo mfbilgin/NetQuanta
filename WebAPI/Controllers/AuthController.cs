@@ -1,5 +1,6 @@
 ﻿using Business.Abstracts;
 using Business.Constants;
+using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Entities.Dtos.Auth;
 using Core.Mailing;
@@ -12,7 +13,6 @@ namespace WebAPI.Controllers;
 public sealed class AuthController(
     IAuthService authService,
     IUserService userService,
-    IRoleService roleService,
     IEmailVerificationService emailVerificationService,
     IMailService mailService) : ControllerBase
 {
@@ -45,5 +45,13 @@ public sealed class AuthController(
         emailVerificationService.VerifyEmail(emailVerification);
         userService.VerifyEmail(username);
         return Ok(EmailVerificationMessages.EmailHasBeenVerified);
+    }
+    
+    [HttpPost("resend-verification-email")]
+    public IActionResult ResendVerificationEmail([FromBody] ResendVerificationEmailDto resendVerificationEmailDto)
+    {
+        var emailVerification = emailVerificationService.Add(resendVerificationEmailDto.Username);
+        mailService.SendWelcomeMail(resendVerificationEmailDto.Email, emailVerification.Username,emailVerification.Token);
+        return Ok(EmailVerificationMessages.EmailHasBeenSent);
     }
 }
