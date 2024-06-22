@@ -20,6 +20,7 @@ public sealed class DapperDatabaseContext(IConfiguration configuration) : DbCont
     public DbSet<User> Users { get; set; }
     public DbSet<EmailVerification> EmailVerifications { get; set; }
     public DbSet<Log> Logs { get; set; }
+    public DbSet<PasswordResetToken> PasswordResetTokens { get; set; }
     
     
     public IDbConnection CreateConnection()=> new SqlConnection(_connectionString);
