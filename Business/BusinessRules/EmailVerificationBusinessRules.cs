@@ -28,4 +28,13 @@ public sealed class EmailVerificationBusinessRules(IEmailVerificationRepository 
             emailVerificationRepository.Delete(emailVerification);
         }
     }
+    
+    public void VerificationTokenCanNotBeResentInLessThanTwoMinute(string username)
+    {
+        var emailVerification = emailVerificationRepository.GetByUsername(username);
+        if (emailVerification != null && emailVerification.CreatedAt < DateTime.Now.AddMinutes(-2))
+        {
+            throw new BusinessException(EmailVerificationMessages.EmailVerificationTokenCanNotBeResentInLessThanTwoMinute, StatusCodes.Status400BadRequest);
+        }
+    }
 }
