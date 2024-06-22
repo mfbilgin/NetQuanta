@@ -51,7 +51,6 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     
     
     [SecurityAspect("all")]
-    [CacheRemoveAspect("IUserService.Get")]
     public void ChangePassword(ChangePasswordDto changePasswordDto)
     {
         userBusinessRules.UsersJustCanUpdateTheirOwnInformations(changePasswordDto.Id);
