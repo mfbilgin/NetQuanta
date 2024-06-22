@@ -11,11 +11,12 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
 {
     public void Add(EmailVerification entity)
     {
-        const string query = "INSERT INTO EmailVerifications (Id, Username, Token) VALUES (@Id, @Username, @Token)";
+        const string query = "INSERT INTO EmailVerifications (Id, Username, Token,CreatedAt) VALUES (@Id, @Username, @Token, @CreatedAt)";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
         parameters.Add("@Username", entity.Username);
         parameters.Add("@Token", entity.Token);
+        parameters.Add("@CreatedAt", entity.CreatedAt);
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
@@ -28,6 +29,7 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
         parameters.Add("@Id", entity.Id);
         parameters.Add("@Username", entity.Username);
         parameters.Add("@Token", entity.Token);
+        
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
