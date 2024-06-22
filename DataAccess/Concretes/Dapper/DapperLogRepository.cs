@@ -12,27 +12,26 @@ public class DapperLogRepository(DapperDatabaseContext context) : ILogRepository
 {
     public void DeleteAllLogs()
     {
-    const string query = "DELETE FROM Logs ORDER BY TimeStamp DESC";
+        const string query = "DELETE FROM Logs";
         using var connection = context.CreateConnection();
         connection.Execute(query);
         connection.Close();
     }
 
-    public void DeleteLogRange(List<int> logIds)
+    public void DeleteLogRange(List<Guid> logIds)
     {
-        const string query = "DELETE FROM Logs WHERE Id in (@Id) ORDER BY TimeStamp DESC";
-        var parameters = new DynamicParameters();
-        parameters.Add("@Id", logIds);
+        const string query = "DELETE FROM Logs WHERE Id IN @Ids";
+        var parameters = new { Ids = logIds };
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
     }
 
-    public PageableModel<Log> GetLogsByUserId(int userId, int index = 1, int size = 10)
+    public PageableModel<Log> GetLogsByUsername(string username, int index = 1, int size = 10)
     {
-        const string query = "SELECT * FROM Logs WHERE UserId = @UserId ORDER BY TimeStamp DESC";
+        const string query = "SELECT * FROM Logs WHERE Username = @Username ORDER BY TimeStamp DESC";
         var parameters = new DynamicParameters();
-        parameters.Add("@UserId", userId);
+        parameters.Add("@Username", username);
         using var connection = context.CreateConnection();
         var logs = connection.Query<Log>(query, parameters).ToList();
         connection.Close();
