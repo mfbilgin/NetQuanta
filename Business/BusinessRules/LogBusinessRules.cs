@@ -1,4 +1,5 @@
-﻿using Core.Entities.Concretes;
+﻿using Business.Constants.Messages;
+using Core.Entities.Concretes;
 using Core.Exceptions;
 using Core.Logging;
 using DataAccess.Abstracts;
@@ -13,7 +14,7 @@ public class LogBusinessRules(ILogRepository logRepository)
         var log = logRepository.GetById(logId);
         if (log is null)
         {
-            throw new BusinessException("Log not found.", StatusCodes.Status404NotFound);
+            throw new BusinessException(LogMessages.LogNotFound, StatusCodes.Status404NotFound);
         }
 
         return log;
