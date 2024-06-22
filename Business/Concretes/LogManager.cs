@@ -1,7 +1,6 @@
-﻿using Business.Abstracts;
-using Business.BusinessRules;
+﻿using Business.BusinessRules;
 using Core.Aspects.Autofac.Caching;
-using Core.Entities.Concretes;
+using Core.Aspects.Autofac.Security;
 using Core.Extensions.Paging;
 using Core.Logging;
 using DataAccess.Abstracts;
@@ -16,6 +15,7 @@ public class LogManager(ILogRepository logRepository,LogBusinessRules logBusines
         logRepository.Add(log);
     }
 
+    [SecurityAspect("admin")]
     [CacheRemoveAspect("ILogService.Get")]
     public void DeleteLog(Guid logId)
     {
@@ -23,36 +23,42 @@ public class LogManager(ILogRepository logRepository,LogBusinessRules logBusines
         logRepository.Delete(log);
     }
 
+    [SecurityAspect("admin")]
     [CacheRemoveAspect("ILogService.Get")]
     public void DeleteAllLogs()
     {
         logRepository.DeleteAllLogs();
     }
 
+    [SecurityAspect("admin")]
     [CacheRemoveAspect("ILogService.Get")]
-    public void DeleteLogRange(List<int> logIds)
+    public void DeleteLogRange(List<Guid> logIds)
     {
         logRepository.DeleteLogRange(logIds);
     }
 
+    [SecurityAspect("admin")]
     [CacheAspect]
     public PageableModel<Log> GetAllLogs(int index = 1, int size = 10)
     {
         return logRepository.GetList(index,size);
     }
 
+    [SecurityAspect("admin")]
     [CacheAspect]
-    public PageableModel<Log> GetLogsByUserId(int userId, int index = 1, int size = 10)
+    public PageableModel<Log> GetLogsByUsername(string username, int index = 1, int size = 10)
     {
-        return logRepository.GetLogsByUserId(userId, index, size);
+        return logRepository.GetLogsByUsername(username, index, size);
     }
 
+    [SecurityAspect("admin")]
     [CacheAspect]
     public PageableModel<Log> GetLogsByLogLevel(string logLevel, int index = 1, int size = 10)
     {
         return logRepository.GetLogsByLogLevel(logLevel, index, size);
     }
 
+    [SecurityAspect("admin")]
     [CacheAspect]
     public PageableModel<Log> GetLogsByException(string exception, int index = 1, int size = 10)
     {
