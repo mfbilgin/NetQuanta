@@ -29,8 +29,8 @@ public sealed class AuthManager(
     public User Login(LoginDto loginDto)
     {
         var user = authBusinessRules.UsernameMustBeExistWhenRequested(loginDto.Username);
-        authBusinessRules.EmailMustBeVerifiedWhenLoggedIn(user);
         authBusinessRules.PasswordMustBeCorrectWhenLoggedIn(user, loginDto.Password);
+        authBusinessRules.EmailMustBeVerifiedWhenLoggedIn(user);
         return user;
     }
     
