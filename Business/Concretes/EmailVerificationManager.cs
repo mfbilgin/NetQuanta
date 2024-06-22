@@ -11,6 +11,7 @@ public sealed class EmailVerificationManager(
 {
     public EmailVerification Add(string username)
     {
+        emailVerificationBusinessRules.VerificationTokenCanNotBeResentInLessThanTwoMinute(username);   
         emailVerificationBusinessRules.IfUserHasVerificationTokenDeleteFirst(username);
         
         var emailVerification = new EmailVerification
