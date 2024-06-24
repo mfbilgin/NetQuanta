@@ -9,10 +9,10 @@ namespace WebAPI.Controllers;
 public class LogsController(ILogService logService) : ControllerBase
 {
     [HttpDelete]
-    public IActionResult Delete([FromBody] Guid id)
+    public IActionResult Delete([FromQuery] Guid id)
     {
         logService.DeleteLog(id);
-        return Ok();
+        return Ok(LogMessages.LogHasBeenDeleted);
     }
        
     [HttpDelete("delete-range")]
@@ -37,10 +37,10 @@ public class LogsController(ILogService logService) : ControllerBase
         return Ok(logs);
     }
     
-    [HttpGet("user/{username}")]
-    public IActionResult GetByUsername(string username, [FromQuery] int index = 1, [FromQuery] int size = 10)
+    [HttpGet("requestedValue/{requestedValue}")]
+    public IActionResult GetByUsername(string requestedValue, [FromQuery] int index = 1, [FromQuery] int size = 10)
     {
-        var logs = logService.GetLogsByUsername(username, index, size);
+        var logs = logService.GetLogsByRequestedValue(requestedValue, index, size);
         return Ok(logs);
     }
     
