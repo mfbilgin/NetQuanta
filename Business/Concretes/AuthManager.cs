@@ -41,9 +41,9 @@ public sealed class AuthManager(
         return token;
     }
 
-    public User ForgotPassword(ForgetPasswordDto forgetPasswordDto)
+    public User ForgotPassword(ForgotPasswordDto forgotPasswordDto)
     {
-        var user = authBusinessRules.UsernameMustBeExistWhenRequested(forgetPasswordDto.Username);
+        var user = authBusinessRules.UsernameMustBeExistWhenRequested(forgotPasswordDto.Username);
         return user;
     }
 }

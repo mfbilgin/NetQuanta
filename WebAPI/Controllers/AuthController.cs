@@ -1,5 +1,4 @@
 ﻿using Business.Abstracts;
-using Business.Constants;
 using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Entities.Dtos.Auth;
@@ -14,6 +13,7 @@ public sealed class AuthController(
     IAuthService authService,
     IUserService userService,
     IEmailVerificationService emailVerificationService,
+    IPasswordResetTokenService passwordResetTokenService,
     IMailService mailService) : ControllerBase
 {
     [HttpPost("register")]
@@ -51,7 +51,27 @@ public sealed class AuthController(
     public IActionResult ResendVerificationEmail([FromBody] ResendVerificationEmailDto resendVerificationEmailDto)
     {
         var emailVerification = emailVerificationService.Add(resendVerificationEmailDto.Username);
-        mailService.SendWelcomeMail(resendVerificationEmailDto.Email, emailVerification.Username,emailVerification.Token);
+        var email = userService.GetEmailByUsername(resendVerificationEmailDto.Username);
+        mailService.SendWelcomeMail(email, emailVerification.Username,emailVerification.Token);
         return Ok(EmailVerificationMessages.EmailHasBeenSent);
     }
-}
+    
+    [HttpPost("forgot-password")]
+    public IActionResult ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+    {
+        var passwordResetToken = passwordResetTokenService.Add(forgotPasswordDto);
+        var email = userService.GetEmailByUsername(forgotPasswordDto.Username);
+        mailService.SendPasswordResetMail(email, passwordResetToken.Username,passwordResetToken.Token);
+        return Ok(PasswordResetTokenMessages.PasswordResetTokenHasBeenSent);
+    }
+    
+    [HttpPost("reset-password")]
+    public IActionResult ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+    {
+        passwordResetTokenService.ValidatePasswordResetToken(resetPasswordDto.Token, resetPasswordDto.Username);
+        var user = userService.ResetPassword(resetPasswordDto);
+        mailService.SendPasswordChangedMail(user.Email, user.Username);
+        return Ok(PasswordResetTokenMessages.PasswordHasBeenReset);
+    }
+
+} 
