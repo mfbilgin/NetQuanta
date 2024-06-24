@@ -1,4 +1,4 @@
-﻿namespace Business.Constants;
+﻿namespace Business.Constants.Messages;
 
 public static class UserMessages
 {
@@ -21,11 +21,10 @@ public static class UserMessages
     
     // User Messages
     public const string UsernameAlreadyExists =
-        "Bu kullanıcı ismi daha önce alınmış.\nLütfen başka bir kullanıcı ismi seçmeyi dene.";
+        "Bu kullanıcı ismi daha önce alınmış. Lütfen başka bir kullanıcı ismi seçmeyi dene.";
 
     public const string EmailAlreadyExists = "Bu e-posta adresi daha önce alınmış.";
-    public const string UserNotFound = "Bir şeyleri yanlış yaptın gibi gözüküyor. Kullanıcı bulunamadı.";
-    public const string AuthError = "Kullanıcı adı veya parola hatalı. Lütfen tekrar dene.";
+    public const string UserNotFound = "Kullanıcı bulunamadı lütfen kullanıcı adını kontrol et.";
     public const string CurrentPasswordIsIncorrect = "Parolan yanlış. Lütfen tekrar dene.";
     public const string NewPasswordMustBeDifferent = "Yeni parolan eski parolandan farklı olmalı";
     public const string UserInfosHasBeenUpdated = "Bilgilerin başarıyla güncellendi.";
@@ -38,7 +37,7 @@ public static class UserMessages
 
     public const string UserRegistered =
         "Aramıza hoş geldin! Hesabın başarıyla oluşturuldu. Posta kutunu kontrol etmeyi unutma.";
-
-    public const string UserCanNotUpdateOtherUser = "Başka bir kullanıcıyı değiştirmeye çalışmak etik mi sence?";
-    public const string UserCanNotDeleteOtherUser = "Başka bir kullanıcıyı silmeye çalışmak etik mi sence?";
+    
+    public const string EmailAlreadyVerified = "Mail adresin zaten doğrulanmış.";
+    public const string UsernameHasBeenSentToEmail = "Kullanıcı adın e-posta adresine gönderildi.";
 }
