@@ -24,6 +24,7 @@ public static class BusinessServiceRegistration
         services.AddSingleton<RoleBusinessRules>();
         services.AddSingleton<UserBusinessRules>();
         services.AddSingleton<AuthBusinessRules>();
+        services.AddSingleton<PasswordResetTokenBusinessRules>();
         services.AddSingleton<EmailVerificationBusinessRules>();
     }
 }

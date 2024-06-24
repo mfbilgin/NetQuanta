@@ -14,6 +14,7 @@ public static class DataAccessServiceRegistration
         //Log only has a Dapper implementation. Not remove this line.
         services.AddSingleton<ILogRepository, DapperLogRepository>();
         
+        services.AddSingleton<IPasswordResetTokenRepository, DapperPasswordResetTokenRepository>();
         services.AddSingleton<IRoleRepository, DapperRoleRepository>();
         services.AddSingleton<IUserRepository, DapperUserRepository>();
         services.AddSingleton<IEmailVerificationRepository, DapperEmailVerificationRepository>();
