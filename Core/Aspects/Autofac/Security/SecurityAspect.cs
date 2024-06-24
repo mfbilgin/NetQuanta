@@ -19,6 +19,6 @@ public sealed class SecurityAspect(string roles) : MethodInterception
             return;
         }
 
-        throw new AuthorizationException();
+        throw new AuthorizationException(JwtHelper.GetAuthenticatedUsername());
     }
 }
