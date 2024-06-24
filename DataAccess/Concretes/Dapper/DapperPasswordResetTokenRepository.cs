@@ -17,8 +17,8 @@ public class DapperPasswordResetTokenRepository(DapperDatabaseContext context) :
                              """;
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
-        parameters.Add("@Token", entity.Token);
-        parameters.Add("@Username", entity.Username);
+        parameters.Add("@Token", entity.Token.Trim());
+        parameters.Add("@Username", entity.Username.Trim());
         parameters.Add("@CreatedAt", entity.CreatedAt);
         var connection = context.CreateConnection();
         connection.Execute(query, parameters);
@@ -39,7 +39,7 @@ public class DapperPasswordResetTokenRepository(DapperDatabaseContext context) :
     {
         const string query = "SELECT * FROM PasswordResetTokens WHERE Token = @Token";
         var parameters = new DynamicParameters();
-        parameters.Add("@Token", token);
+        parameters.Add("@Token", token.Trim());
         var connection = context.CreateConnection();
         var result = connection.QueryFirstOrDefault<PasswordResetToken>(query, parameters);
         connection.Close();
@@ -50,7 +50,7 @@ public class DapperPasswordResetTokenRepository(DapperDatabaseContext context) :
     {
         const string query = "SELECT * FROM PasswordResetTokens WHERE Username = @Username";
         var parameters = new DynamicParameters();
-        parameters.Add("@Username", username);
+        parameters.Add("@Username", username.Trim());
         var connection = context.CreateConnection();
         var result = connection.QueryFirstOrDefault<PasswordResetToken>(query, parameters);
         connection.Close();
