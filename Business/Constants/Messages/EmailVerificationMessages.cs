@@ -3,7 +3,7 @@
 public static class EmailVerificationMessages
 {
     public const string EmailVerificationTokenIsIncorrect =
-        "Yanlış bir linktesin gibi gözüküyor. Lütfen posta kutunu kontrol et.";
+        "Bu link doğru görünmüyor. Posta kutunu kontrol edebilir veya yeni bir doğrulama postası isteği gönderebilirsin.";
 
     public const string EmailHasBeenVerified = "E-posta adresin doğrulandı. Artık giriş yapabilirsin.";
     public const string EmailHasBeenSent = "E-posta adresine doğrulama postası gönderildi. Lütfen posta kutunu kontrol et.";
