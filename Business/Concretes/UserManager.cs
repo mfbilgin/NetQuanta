@@ -6,6 +6,7 @@ using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Security;
 using Core.Aspects.Autofac.Validation;
 using Core.Entities.Concretes;
+using Core.Entities.Dtos.Auth;
 using Core.Entities.Dtos.User;
 using Core.Extensions.Paging;
 using Core.Security.Hashing;
@@ -51,17 +52,33 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
     
     
     [SecurityAspect("all")]
-    public void ChangePassword(ChangePasswordDto changePasswordDto)
+    public User ChangePassword(ChangePasswordDto changePasswordDto)
     {
+        var user = userBusinessRules.UserIdMustBeExist(changePasswordDto.Id);
         userBusinessRules.UsersJustCanUpdateTheirOwnInformations(changePasswordDto.Id);
         userBusinessRules.PasswordsCanNotBeSame(changePasswordDto.CurrentPassword, changePasswordDto.NewPassword);
-        userBusinessRules.UserIdMustBeExist(changePasswordDto.Id);
-        var user = mapper.Map<User>(changePasswordDto);
         userBusinessRules.CurrentPasswordMustBeCorrect(user, changePasswordDto.CurrentPassword);
         HashingHelper.CreatePasswordHash(changePasswordDto.NewPassword, out var passwordHash, out var passwordSalt);
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
         userRepository.Update(user);
+        return user;
+    }
+
+    public User ResetPassword(ResetPasswordDto resetPasswordDto)
+    {
+        var user = userBusinessRules.UsernameMustBeExist(resetPasswordDto.Username);
+        HashingHelper.CreatePasswordHash(resetPasswordDto.Password, out var passwordHash, out var passwordSalt);
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+        userRepository.Update(user);
+        return user;
+    }
+
+    public string RemindUsername(string email)
+    {
+        var user = userBusinessRules.EmailMustBeExist(email);
+        return user.Username;
     }
 
     [SecurityAspect("admin")]
@@ -72,6 +89,12 @@ public sealed class UserManager(IUserRepository userRepository, UserBusinessRule
         var role = userBusinessRules.RoleMustBeExistWhenUserRoleUpdated(changeUserRoleDto.Role);
         user.RoleId = role.Id;
         userRepository.Update(user);
+    }
+
+    public string GetEmailByUsername(string username)
+    {
+        var user= userBusinessRules.UsernameMustBeExist(username);
+        return user.Email;
     }
 
     public void VerifyEmail(string username)
