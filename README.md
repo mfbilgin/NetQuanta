@@ -1,6 +1,6 @@
 # .NET Core 8.0 Proje Şablonu
 
-Bu depo, .NET Core 8.0 projeleri için kullanıma hazır bir şablon sunar. Geliştirme sürecinizi hızlandırmak için gerekli temel özellikleri ve yapılandırılmış bir mimariyi içerir.
+Bu repo, .NET Core 8.0 projeleri için kullanıma hazır bir şablon sunar. Geliştirme sürecinizi hızlandırmak için gerekli temel özellikleri ve yapılandırılmış bir mimariyi içerir.
 
 ## Özellikler
 
@@ -68,7 +68,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
 
 3. Eğer EF kullanacaksanız `DataAccessServiceRegistration.cs` dosyasında dapper context'in kaydını ef context olarak değiştirin ve ardından migration oluşturup veri tabanını güncelleyin. 
 
-4. Core/Mailing'de yer alan `MailSettings.cs` bilgilerini kendi bilgilerinize göre doldurun. Ve ardından `MailKitMailManager.cs` içerisinde yer alan send welcome mail fonksiyonunda yer alan düzenlemeleri gerçekleştirin.
+4. Core/Mailing'de yer alan `MailSettings.cs` bilgilerini kendi bilgilerinize göre doldurun. Ve ardından `MailKitMailManager.cs` içerisindeki fonksiyonlarda yer alan düzenlemeleri gerçekleştirin.
 
 5. Proje çalıştırılmaya hazır. İlk olarak lütfen admin kontrolünü kaldırıp rol ekleyin ve öyle devam edin :)
 
