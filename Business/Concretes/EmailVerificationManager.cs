@@ -7,10 +7,13 @@ namespace Business.Concretes;
 
 public sealed class EmailVerificationManager(
     IEmailVerificationRepository emailVerificationRepository,
-    EmailVerificationBusinessRules emailVerificationBusinessRules) : IEmailVerificationService
+    EmailVerificationBusinessRules emailVerificationBusinessRules,
+    UserBusinessRules userBusinessRules) : IEmailVerificationService
 {
     public EmailVerification Add(string username)
     {
+        userBusinessRules.UsernameMustBeExist(username);
+        userBusinessRules.UserEmailCanNotBeVerified(username);
         emailVerificationBusinessRules.VerificationTokenCanNotBeResentInLessThanTwoMinute(username);   
         emailVerificationBusinessRules.IfUserHasVerificationTokenDeleteFirst(username);
         
