@@ -46,9 +46,9 @@ public class LogManager(ILogRepository logRepository,LogBusinessRules logBusines
 
     [SecurityAspect("admin")]
     [CacheAspect]
-    public PageableModel<Log> GetLogsByUsername(string username, int index = 1, int size = 10)
+    public PageableModel<Log> GetLogsByRequestedValue(string requestedValue, int index = 1, int size = 10)
     {
-        return logRepository.GetLogsByUsername(username, index, size);
+        return logRepository.GetLogsByRequestedValue(requestedValue, index, size);
     }
 
     [SecurityAspect("admin")]
