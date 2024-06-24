@@ -1,4 +1,4 @@
-﻿using Business.Constants;
+﻿using Business.Constants.Messages;
 using Core.Entities.Dtos.Auth;
 using FluentValidation;
 
