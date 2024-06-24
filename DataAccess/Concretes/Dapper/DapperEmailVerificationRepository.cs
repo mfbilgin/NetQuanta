@@ -27,8 +27,8 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
         const string query = "UPDATE EmailVerifications SET Username = @Username, Token = @Token WHERE Id = @Id";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
-        parameters.Add("@Username", entity.Username);
-        parameters.Add("@Token", entity.Token);
+        parameters.Add("@Username", entity.Username.Trim());
+        parameters.Add("@Token", entity.Token.Trim());
         
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
@@ -79,7 +79,7 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
     {
         const string query = "SELECT * FROM EmailVerifications WHERE Token = @Token";
         var parameters = new DynamicParameters();
-        parameters.Add("@Token", token);
+        parameters.Add("@Token", token.Trim());
         using var connection = context.CreateConnection();
         var emailVerification = connection.QueryFirstOrDefault<EmailVerification>(query, parameters);
         connection.Close();
@@ -90,7 +90,7 @@ public sealed class DapperEmailVerificationRepository(DapperDatabaseContext cont
     {
         const string query = "SELECT * FROM EmailVerifications WHERE Username = @Username";
         var parameters = new DynamicParameters();
-        parameters.Add("@Username", username);
+        parameters.Add("@Username", username.Trim());
         using var connection = context.CreateConnection();
         var emailVerification = connection.QueryFirstOrDefault<EmailVerification>(query, parameters);
         connection.Close();

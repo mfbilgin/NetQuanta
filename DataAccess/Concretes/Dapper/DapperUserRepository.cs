@@ -19,11 +19,11 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
         parameters.Add("@RoleId", entity.RoleId);
-        parameters.Add("@FirstName", entity.FirstName);
-        parameters.Add("@LastName", entity.LastName);
-        parameters.Add("@Email", entity.Email);
+        parameters.Add("@FirstName", entity.FirstName.Trim());
+        parameters.Add("@LastName", entity.LastName.Trim());
+        parameters.Add("@Email", entity.Email.Trim());
         parameters.Add("@IsEmailVerified", entity.IsEmailVerified);
-        parameters.Add("@Username", entity.Username.ToLower());
+        parameters.Add("@Username", entity.Username.ToLower().Trim());
         parameters.Add("@PasswordHash", entity.PasswordHash);
         parameters.Add("@PasswordSalt", entity.PasswordSalt);
         var connection = context.CreateConnection();
@@ -35,15 +35,16 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
     {
         const string query = """
               UPDATE Users 
-              SET RoleId = @RoleId, FirstName = @FirstName, LastName = @LastName, Email = @Email, IsEmailVerified = @IsEmailVerified, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt
+              SET RoleId = @RoleId, FirstName = @FirstName, LastName = @LastName,Username = @Username, Email = @Email, IsEmailVerified = @IsEmailVerified, PasswordHash = @PasswordHash, PasswordSalt = @PasswordSalt
               WHERE Id = @Id
               """;
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
         parameters.Add("@RoleId", entity.RoleId);
-        parameters.Add("@FirstName", entity.FirstName);
-        parameters.Add("@LastName", entity.LastName);
-        parameters.Add("@Email", entity.Email);
+        parameters.Add("@FirstName", entity.FirstName.Trim());
+        parameters.Add("@LastName", entity.LastName.Trim());
+        parameters.Add("@Username", entity.Username.ToLower().Trim());
+        parameters.Add("@Email", entity.Email.Trim());
         parameters.Add("@IsEmailVerified", entity.IsEmailVerified);
         parameters.Add("@PasswordHash", entity.PasswordHash);
         parameters.Add("@PasswordSalt", entity.PasswordSalt);
@@ -120,4 +121,5 @@ public class DapperUserRepository(DapperDatabaseContext context) : IUserReposito
         connection.Execute(query, parameters);
         connection.Close();
     }
+    
 }

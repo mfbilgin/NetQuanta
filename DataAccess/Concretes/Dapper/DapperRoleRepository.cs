@@ -15,7 +15,7 @@ public sealed class DapperRoleRepository(DapperDatabaseContext context) : IRoleR
         const string query = "INSERT INTO Roles(Id,Name) VALUES(@Id, @Name)";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
-        parameters.Add("@Name", entity.Name);
+        parameters.Add("@Name", entity.Name.Trim());
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
@@ -26,7 +26,7 @@ public sealed class DapperRoleRepository(DapperDatabaseContext context) : IRoleR
         const string query = "UPDATE Roles SET Name = @Name WHERE Id = @Id";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
-        parameters.Add("@Name", entity.Name);
+        parameters.Add("@Name", entity.Name.Trim());
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
@@ -58,7 +58,7 @@ public sealed class DapperRoleRepository(DapperDatabaseContext context) : IRoleR
     {
         const string query = "SELECT * FROM Roles WHERE Name = @Name";
         var parameters = new DynamicParameters();
-        parameters.Add("@Name", name);
+        parameters.Add("@Name", name.Trim());
         using var connection = context.CreateConnection();
         var role = connection.QueryFirstOrDefault<Role>(query, parameters);
         connection.Close();

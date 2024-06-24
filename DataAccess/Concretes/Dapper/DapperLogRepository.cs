@@ -27,11 +27,11 @@ public class DapperLogRepository(DapperDatabaseContext context) : ILogRepository
         connection.Close();
     }
 
-    public PageableModel<Log> GetLogsByUsername(string username, int index = 1, int size = 10)
+    public PageableModel<Log> GetLogsByRequestedValue(string requestedValue, int index = 1, int size = 10)
     {
-        const string query = "SELECT * FROM Logs WHERE Username = @Username ORDER BY TimeStamp DESC";
+        const string query = "SELECT * FROM Logs WHERE RequestedValue = @RequestedValue ORDER BY TimeStamp DESC";
         var parameters = new DynamicParameters();
-        parameters.Add("@Username", username);
+        parameters.Add("@RequestedValue", requestedValue.Trim());
         using var connection = context.CreateConnection();
         var logs = connection.Query<Log>(query, parameters).ToList();
         connection.Close();
@@ -42,7 +42,7 @@ public class DapperLogRepository(DapperDatabaseContext context) : ILogRepository
     {
         const string query = "SELECT * FROM Logs WHERE LogLevel = @LogLevel ORDER BY TimeStamp DESC";
         var parameters = new DynamicParameters();
-        parameters.Add("@LogLevel", logLevel);
+        parameters.Add("@LogLevel", logLevel.Trim());
         using var connection = context.CreateConnection();
         var logs = connection.Query<Log>(query, parameters).ToList();
         connection.Close();
@@ -53,7 +53,7 @@ public class DapperLogRepository(DapperDatabaseContext context) : ILogRepository
     {
         const string query = "SELECT * FROM Logs WHERE Exception = @Exception ORDER BY TimeStamp DESC";
         var parameters = new DynamicParameters();
-        parameters.Add("@Exception", exception);
+        parameters.Add("@Exception", exception.Trim());
         using var connection = context.CreateConnection();
         var logs = connection.Query<Log>(query, parameters).ToList();
         connection.Close();
@@ -63,16 +63,16 @@ public class DapperLogRepository(DapperDatabaseContext context) : ILogRepository
     public void Add(Log entity)
     {
         const string query =
-            "INSERT INTO Logs(Id,Username,LogLevel,Message,Exception,TimeStamp,Source,Details) VALUES(@Id,@Username, @LogLevel, @Message, @Exception, @TimeStamp, @Source, @Details)";
+            "INSERT INTO Logs(Id,RequestedValue,LogLevel,Message,Exception,TimeStamp,Source,Details) VALUES(@Id,@RequestedValue, @LogLevel, @Message, @Exception, @TimeStamp, @Source, @Details)";
         var parameters = new DynamicParameters();
         parameters.Add("@Id", entity.Id);
-        parameters.Add("@Username", entity.UserName);
-        parameters.Add("@LogLevel", entity.LogLevel);
-        parameters.Add("@Message", entity.Message);
-        parameters.Add("@Exception", entity.Exception);
+        parameters.Add("@RequestedValue", entity.RequestedValue?.Trim());
+        parameters.Add("@LogLevel", entity.LogLevel.Trim());
+        parameters.Add("@Message", entity.Message.Trim());
+        parameters.Add("@Exception", entity.Exception.Trim());
         parameters.Add("@TimeStamp", entity.TimeStamp);
-        parameters.Add("@Source", entity.Source);
-        parameters.Add("@Details", entity.Details);
+        parameters.Add("@Source", entity.Source.Trim());
+        parameters.Add("@Details", entity.Details?.Trim());
         using var connection = context.CreateConnection();
         connection.Execute(query, parameters);
         connection.Close();
