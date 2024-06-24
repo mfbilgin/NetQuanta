@@ -70,7 +70,7 @@ Proje şablonunu kullanmaya başlamak için aşağıdaki adımları izleyebilirs
 
 4. Core/Mailing'de yer alan `MailSettings.cs` bilgilerini kendi bilgilerinize göre doldurun. Ve ardından `MailKitMailManager.cs` içerisindeki fonksiyonlarda yer alan düzenlemeleri gerçekleştirin.
 
-5. Proje çalıştırılmaya hazır. İlk olarak lütfen admin kontrolünü kaldırıp rol ekleyin ve öyle devam edin :)
+5. Proje çalıştırılmaya hazır. İlk olarak lütfen ```Business/Concrete/RoleManager.cs```'de yer alan Add fonksiyonunun ve ```Business/Concrete/UserManager.cs```'de yer alan ChangeUserRole fonksiyonunun admin kontrolünün kaldırıp rol ekleyin daha sonra bir admin hesabı açıp admin rolü verin ve öyle devam edin :)
 
 ### Şablonun Kullanımı
 
