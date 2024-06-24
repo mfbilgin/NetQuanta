@@ -14,7 +14,7 @@ public sealed class EmailVerificationBusinessRules(IEmailVerificationRepository 
         var emailVerification = emailVerificationRepository.GetByToken(token);
         if (emailVerification is null || emailVerification.Username != username)
         {
-            throw new BusinessException(EmailVerificationMessages.EmailVerificationTokenIsIncorrect, StatusCodes.Status400BadRequest);
+            throw new BusinessException(EmailVerificationMessages.EmailVerificationTokenIsIncorrect, StatusCodes.Status400BadRequest,username);
         }
 
         return emailVerification;
@@ -34,7 +34,7 @@ public sealed class EmailVerificationBusinessRules(IEmailVerificationRepository 
         var emailVerification = emailVerificationRepository.GetByUsername(username);
         if (emailVerification != null && emailVerification.CreatedAt < DateTime.Now.AddMinutes(-2))
         {
-            throw new BusinessException(EmailVerificationMessages.EmailVerificationTokenCanNotBeResentInLessThanTwoMinute, StatusCodes.Status400BadRequest);
+            throw new BusinessException(EmailVerificationMessages.EmailVerificationTokenCanNotBeResentInLessThanTwoMinute, StatusCodes.Status400BadRequest,username);
         }
     }
 }

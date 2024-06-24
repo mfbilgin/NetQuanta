@@ -1,6 +1,4 @@
-﻿using System.Security.Authentication;
-using Business.Constants;
-using Business.Constants.Messages;
+﻿using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Entities.Enums;
 using Core.Exceptions;
@@ -18,7 +16,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         var user = userRepository.GetByUsername(username);
         if (user is not null && user.Id != id)
         {
-            throw new BusinessException(UserMessages.UsernameAlreadyExists, StatusCodes.Status409Conflict);
+            throw new BusinessException(UserMessages.UsernameAlreadyExists, StatusCodes.Status409Conflict, username);
         }
     }
 
@@ -32,7 +30,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         if (requestedUserId != JwtHelper.GetAuthenticatedUserId() &&
             JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
-            throw new AuthenticationException();
+            throw new AuthorizationException(null);
         }
     }
 
@@ -41,7 +39,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         if (id != JwtHelper.GetAuthenticatedUserId() &&
             JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
-            throw new AuthenticationException();
+            throw new AuthorizationException(null);
         }
     }
 
@@ -50,7 +48,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         if (name != JwtHelper.GetAuthenticatedUsername() &&
             JwtHelper.GetAuthenticatedUserRoles().Contains(SystemRoles.Admin.ToString().ToLower()) is false)
         {
-            throw new AuthorizationException();
+            throw new AuthorizationException(name);
         }
     }
 
@@ -59,18 +57,20 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         var user = userRepository.GetByEmail(email);
         if (user is not null && user.Id != id)
         {
-            throw new BusinessException(UserMessages.EmailAlreadyExists, StatusCodes.Status409Conflict);
+            throw new BusinessException(UserMessages.EmailAlreadyExists, StatusCodes.Status409Conflict, email);
         }
     }
 
 
-    public void UserIdMustBeExist(Guid id)
+    public User UserIdMustBeExist(Guid id)
     {
         var user = userRepository.GetById(id);
         if (user is null)
         {
-            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound);
+            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound,id.ToString());
         }
+
+        return user;
     }
 
     public User UsernameMustBeExist(string username)
@@ -78,7 +78,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         var user = userRepository.GetByUsername(username);
         if (user is null)
         {
-            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound);
+            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound,username);
         }
 
         return user;
@@ -88,7 +88,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
     {
         if (HashingHelper.VerifyPasswordHash(currentPassword, user.PasswordHash, user.PasswordSalt) is false)
         {
-            throw new BusinessException(UserMessages.CurrentPasswordIsIncorrect, StatusCodes.Status400BadRequest);
+            throw new BusinessException(UserMessages.CurrentPasswordIsIncorrect, StatusCodes.Status400BadRequest,user.Username);
         }
     }
 
@@ -96,7 +96,7 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
     {
         if (currentPassword == newPassword)
         {
-            throw new BusinessException(UserMessages.NewPasswordMustBeDifferent, StatusCodes.Status400BadRequest);
+            throw new BusinessException(UserMessages.NewPasswordMustBeDifferent, StatusCodes.Status400BadRequest,null);
         }
     }
 
@@ -105,9 +105,33 @@ public sealed class UserBusinessRules(IUserRepository userRepository, IRoleRepos
         var role = roleRepository.GetByName(roleName);
         if (role is null)
         {
-            throw new BusinessException(RoleMessages.RoleNotFound, StatusCodes.Status404NotFound);
+            throw new BusinessException(RoleMessages.RoleNotFound, StatusCodes.Status404NotFound,roleName);
         }
 
         return role;
+    }
+
+    public void UserEmailCanNotBeVerified(string username)
+    {
+        var user = userRepository.GetByUsername(username);
+        if (user is null)
+        {
+            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound,username);
+        }
+        if (user.IsEmailVerified)
+        {
+            throw new BusinessException(UserMessages.EmailAlreadyVerified, StatusCodes.Status400BadRequest,username);
+        }
+    }
+
+    public User EmailMustBeExist(string email)
+    {
+        var user = userRepository.GetByEmail(email);
+        if (user is null)
+        {
+            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound,email);
+        }
+
+        return user;
     }
 }

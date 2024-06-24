@@ -5,7 +5,7 @@ namespace Core.Logging;
 
 public sealed class Log : AbstractEntity
 {
-    [MaxLength(50)]public string? UserName { get; init; }
+    [MaxLength(50)]public string? RequestedValue { get; init; }
 
     public DateTime TimeStamp { get; init; } = DateTime.Now;
     [MaxLength(15)] public string LogLevel { get; init; } = string.Empty;

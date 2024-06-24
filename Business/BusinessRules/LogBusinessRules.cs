@@ -14,7 +14,7 @@ public class LogBusinessRules(ILogRepository logRepository)
         var log = logRepository.GetById(logId);
         if (log is null)
         {
-            throw new BusinessException(LogMessages.LogNotFound, StatusCodes.Status404NotFound);
+            throw new BusinessException(LogMessages.LogNotFound, StatusCodes.Status404NotFound,logId.ToString());
         }
 
         return log;

@@ -1,4 +1,5 @@
 ﻿using Business.Constants;
+using Business.Constants.Messages;
 using Core.Entities.Concretes;
 using Core.Exceptions;
 using Core.Security.Hashing;
@@ -13,7 +14,7 @@ public sealed class AuthBusinessRules(IUserRepository userRepository)
         var user = userRepository.GetByUsername(username);
         if (user is not null)
         {
-            throw new BusinessException(UserMessages.UsernameAlreadyExists, StatusCodes.Status409Conflict);
+            throw new BusinessException(UserMessages.UsernameAlreadyExists, StatusCodes.Status409Conflict,username);
         }
     }
     public void EmailCanNotBeDuplicatedWhenRegistered(string email)
@@ -21,7 +22,7 @@ public sealed class AuthBusinessRules(IUserRepository userRepository)
         var user = userRepository.GetByEmail(email);
         if (user is not null)
         {
-            throw new BusinessException(UserMessages.EmailAlreadyExists, StatusCodes.Status409Conflict);
+            throw new BusinessException(UserMessages.EmailAlreadyExists, StatusCodes.Status409Conflict,email);
         }
     }
     public User UsernameMustBeExistWhenRequested(string username)
@@ -29,7 +30,7 @@ public sealed class AuthBusinessRules(IUserRepository userRepository)
         var user = userRepository.GetByUsername(username);
         if (user is null)
         {
-            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound);
+            throw new BusinessException(UserMessages.UserNotFound, StatusCodes.Status404NotFound,username);
         }
 
         return user;
@@ -38,7 +39,7 @@ public sealed class AuthBusinessRules(IUserRepository userRepository)
     {
         if (!HashingHelper.VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
         {
-            throw new BusinessException(UserMessages.CurrentPasswordIsIncorrect, StatusCodes.Status400BadRequest);
+            throw new BusinessException(UserMessages.CurrentPasswordIsIncorrect, StatusCodes.Status400BadRequest,user.Username);
         }
     }
     
@@ -46,7 +47,7 @@ public sealed class AuthBusinessRules(IUserRepository userRepository)
     {
         if (!user.IsEmailVerified)
         {
-            throw new BusinessException(UserMessages.EmailNotVerified, StatusCodes.Status400BadRequest);
+            throw new BusinessException(UserMessages.EmailNotVerified, StatusCodes.Status400BadRequest,user.Email);
         }
     }
 

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Core.Extensions.Exception;
 
-public class ExceptionMiddleware(RequestDelegate next,ILogService logService)
+public class ExceptionMiddleware(RequestDelegate next, ILogService logService)
 {
     public async Task InvokeAsync(HttpContext httpContext)
     {
@@ -24,8 +24,6 @@ public class ExceptionMiddleware(RequestDelegate next,ILogService logService)
     private Task HandleExceptionAsync(HttpContext httpContext, System.Exception exception)
     {
         httpContext.Response.ContentType = "application/json";
-        
-
         IErrorDetails errorDetails = exception switch
         {
             ValidationException validationException => new ValidationErrorDetails
@@ -36,17 +34,24 @@ public class ExceptionMiddleware(RequestDelegate next,ILogService logService)
             BusinessException businessException => new BusinessErrorDetails
             {
                 Message = businessException.Message,
-                StatusCode = businessException.StatusCode
+                StatusCode = businessException.StatusCode,
+                RequestedValue = businessException.RequestedValue
             },
-            AuthorizationException _ => new AuthorizationErrorDetails(),
+            AuthorizationException authorizationException => new AuthorizationErrorDetails
+            {
+                RequestedValue = authorizationException.RequestedValue
+            },
+            
             // if you are in development mode, you can return the exception message
             _ => new DefaultErrorDetails { Message = exception.Message }
+
             // else 
             // _ => new DefaultErrorDetails()
         };
         httpContext.Response.StatusCode = errorDetails.StatusCode;
-        // !!! ADD LOGGING HERE !!!
+
         var stackTrace = exception.StackTrace?.Split("Controllers.")[1].Split("\r")[0];
+
         Log log = new()
         {
             LogLevel = LogLevel.Error.ToString(),
@@ -54,10 +59,11 @@ public class ExceptionMiddleware(RequestDelegate next,ILogService logService)
             Exception = exception.GetType().Name,
             Source = stackTrace ?? "Unknown",
             Details = errorDetails.GetDetails(),
-            UserName = JwtHelper.GetAuthenticatedUsername()??"Unauthorized request",
+            RequestedValue = JwtHelper.GetAuthenticatedUsername() ?? errorDetails.RequestedValue?? "Unknown"
         };
+
         logService.Log(log);
-        
+
         return httpContext.Response.WriteAsync(errorDetails.GetDetails());
     }
-}
+} 
