@@ -8,6 +8,5 @@ public interface IAuthService
 {
     public User Register(RegisterDto registerDto);
     public User Login(LoginDto loginDto);
-    public User ForgotPassword(ForgetPasswordDto forgetPasswordDto);
     public AccessToken CreateAccessToken(User user); 
 }

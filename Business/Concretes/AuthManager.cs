@@ -40,10 +40,4 @@ public sealed class AuthManager(
         var token = tokenHelper.CreateToken(user, role);
         return token;
     }
-
-    public User ForgotPassword(ForgotPasswordDto forgotPasswordDto)
-    {
-        var user = authBusinessRules.UsernameMustBeExistWhenRequested(forgotPasswordDto.Username);
-        return user;
-    }
 }
